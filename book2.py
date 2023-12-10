@@ -30,6 +30,17 @@ class BookRequest(BaseModel):
     rating: int = Field(gt=0, lt=6)
     published_date: int = Field(gt=1999, lt=2031)
 
+    class Config:
+        json_schema_extra = {
+            'example': {
+                'title': 'A new book',
+                'author': 'codingwithroby',
+                'description': 'A new description of a book',
+                'rating': 5,
+                'published_date': 2029
+            }
+        }
+
 
 BOOKS = [
     Book(1, 'Computer Science Pro', 'codingwithroby', 'A very nice book!', 5, 2030),
