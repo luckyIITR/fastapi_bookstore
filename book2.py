@@ -66,12 +66,23 @@ async def read_book(book_id: int):
 
 
 @app.get("/books/")
-async def read_book_by_rating(book_rating: int ):
+async def read_book_by_rating(book_rating: int):
     books_to_return = []
     for book in BOOKS:
         if book.rating == book_rating:
             books_to_return.append(book)
     return books_to_return
+
+
+@app.put("/books/update_book")
+async def update_book(book: BookRequest):
+    book_changed = False
+    for i in range(len(BOOKS)):
+        if BOOKS[i].id == book.id:
+            BOOKS[i] = book
+            book_changed = True
+    if not book_changed:
+        raise HTTPException(status_code=404, detail='Item not found')
 
 
 @app.post("/create-book")
