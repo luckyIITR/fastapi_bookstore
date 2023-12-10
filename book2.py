@@ -94,3 +94,15 @@ async def create_book(book_request: BookRequest):
 def find_book_id(book: Book):
     book.id = 1 if len(BOOKS) == 0 else BOOKS[-1].id + 1
     return book
+
+
+@app.delete("/books/{book_id}")
+async def delete_book(book_id: int):
+    book_changed = False
+    for i in range(len(BOOKS)):
+        if BOOKS[i].id == book_id:
+            BOOKS.pop(i)
+            book_changed = True
+            break
+    if not book_changed:
+        raise HTTPException(status_code=404, detail='Item not found')
